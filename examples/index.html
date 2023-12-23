@@ -15,169 +15,1111 @@
 -->
 <!doctype html>
 
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+
 <head>
-  <script src="template.v2.js"></script>
+  <script src="/template.v2.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf8">
 </head>
 
 <body>
-  <distill-header></distill-header>
-  <d-front-matter>
-    <script id='distill-front-matter' type="text/json">{
-    "title": "Why Momentum Really Works",
-    "description": "Although \" extremely useful for visualizing high-dimensional data, t-SNE plots can sometimes be mysterious or misleading.",
-    "published": "Jan 10, 2017",
-    "authors": [
-      {
-        "author":"Chris Olah",
-        "authorURL":"https://colah.github.io/",
-        "affiliations": [{"name": "Google Brain"}]
-      },
-      {
-        "author":"Ludwig Schubert",
-        "authorURL":"https://shancarter.com/",
-        "affiliations": [{"name": "Google Brain", "url": "https://g.co/brain"}]
-      },
-      {
-        "author":"Shan Carter",
-        "authorURL":"https://shancarter.com/",
-        "affiliations": [
-          {"name": "Google Brain", "url": "https://g.co/brain"},
-          {"name": "NYT", "url": "https://nytimes.com"}
-        ]
-      }
-    ],
-    "katex": {
-      "delimiters": [
-        {"left": "$$", "right": "$$", "display": false}
-      ]
+  <style>
+    .description h2,
+    .description p {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     }
-  }</script>
-  </d-front-matter>
-  <d-title>
-    <figure style="grid-column: page; margin: 1rem 0;"><img src="momentum.png"
-        style="width:100%; border: 1px solid rgba(0, 0, 0, 0.2);" /></figure>
-    <p>We often think of Momentum<d-cite key="mercier2011humans"></d-cite> as a means of dampening oscillations and
-      speeding up the iterations, leading to faster convergence. But it has other interesting behavior. It allows a
-      larger range of step-sizes to be used, and creates its own oscillations. What is going on?</p>
-  </d-title>
-  <d-byline></d-byline>
-  <d-article>
-    <a class="marker" href="#section-1" id="section-1"><span>1</span></a>
-    <h2>A Brief Survey of Techniques</h2>
-    <p>Before diving in: if you haven’t encountered t-SNE before, here’s what you need to know about the math behind it.
-      The goal is to take a set of points in a high-dimensional space and find a faithful representation of those points
-      in a lower-dimensional space, typically the 2D plane. The algorithm is non-linear and adapts to the underlying
-      data, performing different transformations on different regions. Those differences can be a major source of
-      confusion.</p>
-    <p>This is the first paragraph of the article. Test a long&thinsp;&mdash;&thinsp;dash -- here it is.</p>
-    <p>Test for owner's possessive. Test for "quoting a passage." And another sentence. Or two. Some flopping fins; for
-      diving.</p>
-    <aside>Some text in an aside, margin notes, etc...</aside>
-    <p>Here's a test of an inline equation <d-math>c = a^2 + b^2</d-math>. Also with configurable katex standards just
-      using inline '$' signs: $$x^2$$ And then there's a block equation:</p>
-    <d-math block>
-      c = \pm \sqrt{ \sum_{i=0}^{n}{a^{222} + b^2}}
-    </d-math>
-    <p>Math can also be quite involved:</p>
-    <d-math block>
-      \frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}}
-      {1+\frac{e^{-6\pi}} {1+\frac{e^{-8\pi}} {1+\cdots} } } }
-    </d-math>
-    <a class="marker" href="#section-1.1" id="section-1.1"><span>1.1</span></a>
-    <h3>Citations</h3>
-    <p>
-      <d-slider style="width: 200px;"></d-slider>
-    </p>
-    <p>We can<d-cite bibtex-key="mercier2011humans"></d-cite> also cite <d-cite
-        key="gregor2015draw,mercier2011humans,openai2018charter"></d-cite> external publications. <d-cite
-        key="dong2014image,dumoulin2016guide,mordvintsev2015inceptionism"></d-cite>. We should also be testing footnotes
-      <d-footnote>This will become a hoverable footnote. This will become a hoverable footnote. This will become a
-        hoverable footnote. This will become a hoverable footnote. This will become a hoverable footnote. This will
-        become a hoverable footnote. This will become a hoverable footnote. This will become a hoverable footnote.
-      </d-footnote>. There are multiple footnotes, and they appear in the appendix<d-footnote>Given I have coded them
-        right. Also, here's math in a footnote: <d-math>c = \sum_0^i{x}</d-math>. Also, a citation. Box-ception<d-cite
-          key='gregor2015draw'></d-cite>!</d-footnote> as well.</p>
-    <a class="marker" href="#section-2" id="section-2"><span>2</span></a>
-    <h2>Displaying code snippets</h2>
-    <p>Some inline javascript:<d-code language="javascript">var x = 25;</d-code>. And here's a javascript code block.
-    </p>
-    <d-code block language="javascript">
-      var x = 25;
-      function(x){
-      return x * x;
+
+    .description h2 {
+      font-weight: 700;
+    }
+
+    .posts-list .post-preview .description p.authors {
+      font-size: 0.875rem;
+      font-weight: 400;
+      margin-bottom: 1em;
+      color: rgba(0, 0, 0, 0.67);
+    }
+
+    h2.post-tag {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      padding-bottom: 12px;
+    }
+
+    .posts-list {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .posts-list .post-preview {
+      text-decoration: none;
+      overflow: hidden;
+      display: block;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 24px 0;
+    }
+
+    .posts-list .post-preview:last-of-type {
+      border-bottom: none;
+    }
+
+    .posts-list .post-preview h2 {
+      margin: 0 0 6px 0;
+      line-height: 1.2em;
+      font-style: normal;
+      font-size: 24px;
+    }
+
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.4em;
+      font-size: 16px;
+    }
+
+    .posts-list .post-preview .thumbnail {
+      box-sizing: border-box;
+      margin-bottom: 24px;
+      position: relative;
+      max-width: 500px;
+    }
+
+    .posts-list .post-preview.editorial .thumbnail {
+      display: none;
+    }
+
+    .posts-list .post-preview img {
+      width: 100%;
+      display: block;
+    }
+
+    .posts-list .metadata {
+      font-size: 12px;
+      line-height: 1.4em;
+      margin-bottom: 18px;
+    }
+
+    .metadata>* {
+      display: inline-block;
+    }
+
+    .metadata .publishedDate {
+      margin-right: 1em;
+    }
+
+    .metadata .tags {
+      margin-top: 1em;
+    }
+
+    .tags .tag {
+      display: inline;
+      color: rgba(0, 0, 0, 0.67);
+      padding: 0.3em 0.5em;
+      margin: 0;
+      font-size: 80%;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      border-radius: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .tag.peer-reviewed {
+      background-color: #0F2E3DE0;
+      color: white;
+      border-color: #0F2E3D;
+    }
+
+    @media(min-width: 768px) {
+      .metadata>* {
+        display: block;
       }
-    </d-code>
-    <p>We also support python.</p>
-    <d-code block language="python">
-      # Python 3: Fibonacci series up to n
-      def fib(n):
-      a, b = 0, 1
-      while a < n: print(a, end=' ' ) a, b=b, a+b </d-code>
-        <p>And a table</p>
-        <table>
-          <thead>
-            <tr>
-              <th>First</th>
-              <th>Second</th>
-              <th>Third</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>23</td>
-              <td>654</td>
-              <td>23</td>
-            </tr>
-            <tr>
-              <td>14</td>
-              <td>54</td>
-              <td>34</td>
-            </tr>
-            <tr>
-              <td>234</td>
-              <td>54</td>
-              <td>23</td>
-            </tr>
-          </tbody>
-        </table>
-        <d-figure id="last-figure"></d-figure>
-        <script>
-          const figure = document.querySelector("d-figure#last-figure");
-          const initTag = document.createElement("span");
-          initTag.textContent = "initialized!"
-          figure.appendChild(initTag);
-          figure.addEventListener("ready", function () {
-            const initTag = figure.querySelector("span");
-            initTag.textContent = "ready"
-            console.log('ready')
-          });
-          figure.addEventListener("onscreen", function () {
-            const initTag = figure.querySelector("span");
-            initTag.textContent = "onscreen"
-            console.log('onscreen')
-          });
-          figure.addEventListener("offscreen", function () {
-            const initTag = figure.querySelector("span");
-            initTag.textContent = "offscreen!"
-            console.log('offscreen')
-          });
-        </script>
-        <p>That's it for the example article!</p>
 
-  </d-article>
+      .posts-list .post-preview h2 {
+        font-size: 26px;
+      }
 
-  <d-appendix>
+      .posts-list {
+        margin-top: 60px;
+      }
 
-    <h3>Contributions</h3>
-    <p>Some text describing who did what.</p>
-    <h3>Reviewers</h3>
-    <p>Some text with links describing who reviewed the article.</p>
+      .posts-list .post-preview .thumbnail {
+        float: right;
+        width: 35%;
+        margin-bottom: 0;
+      }
 
-    <d-bibliography src="bibliography.bib"></d-bibliography>
-  </d-appendix>
+      .posts-list .post-preview .description {
+        float: left;
+        width: 40%;
+      }
 
-  <distill-footer></distill-footer>
+      .posts-list .post-preview .metadata {
+        float: left;
+        width: 15%;
+        margin-top: 8px;
+      }
 
+      .posts-list .post-preview p {
+        margin: 0 0 12px 0;
+        line-height: 1.5em;
+        font-size: 16px;
+      }
+
+    }
+  </style>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+      font: 400 16px/1.55em -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, sans-serif;
+      /*background-color: hsl(223, 9%, 25%);*/
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      /*background-color: hsl(223, 9%, 25%);*/
+    }
+
+    a {
+      color: #004276;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    h1 {
+      font-family: Cochin, Georgia, serif;
+    }
+
+    /*
+  html, body, div, span, applet, object, iframe,
+  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+  a, abbr, acronym, address, big, cite, code,
+  del, dfn, em, img, ins, kbd, q, s, samp,
+  small, strike, strong, sub, sup, tt, var,
+  b, u, i, center,
+  dl, dt, dd, ol, ul, li,
+  fieldset, form, label, legend,
+  table, caption, tbody, tfoot, thead, tr, th, td,
+  article, aside, canvas, details, embed,
+  figure, figcaption, footer, header, hgroup,
+  menu, nav, output, ruby, section, summary,
+  time, mark, audio, video {
+  	margin: 0;
+  	padding: 0;
+  	border: 0;
+  	font-size: 100%;
+  	font: inherit;
+  	vertical-align: baseline;
+  }
+  article, aside, details, figcaption, figure,
+  footer, header, hgroup, menu, nav, section {
+  	display: block;
+  }
+  body {
+  	line-height: 1;
+  }
+  ol, ul {
+  	list-style: none;
+  }
+  blockquote, q {
+  	quotes: none;
+  }
+  blockquote:before, blockquote:after,
+  q:before, q:after {
+  	content: '';
+  	content: none;
+  }
+  table {
+  	border-collapse: collapse;
+  	border-spacing: 0;
+  }*/
+    /*
+    Column: 60px
+    Gutter: 24px
+  
+    Body: 648px
+      - 8 columns
+      - 7 gutters
+    Middle: 816px
+    Page: 984px
+      - 12 columns
+      - 11 gutters
+  */
+
+    .l-body,
+    .l-body-outset,
+    .l-page,
+    .l-page-outset,
+    .l-middle,
+    .l-middle-outset,
+    dt-article>div,
+    dt-article>p,
+    dt-article>h1,
+    dt-article>h2,
+    dt-article>h3,
+    dt-article>h4,
+    dt-article>figure,
+    dt-article>table,
+    dt-article>ol,
+    dt-article>ul,
+    dt-article>dt-byline,
+    dt-article>dt-math,
+    dt-article>dt-code,
+    dt-article section>div,
+    dt-article section>p,
+    dt-article section>h1,
+    dt-article section>h2,
+    dt-article section>h3,
+    dt-article section>h4,
+    dt-article section>figure,
+    dt-article section>table,
+    dt-article section>ol,
+    dt-article section>ul,
+    dt-article section>dt-byline,
+    dt-article section>dt-code {
+      width: auto;
+      margin-left: 24px;
+      margin-right: 24px;
+      box-sizing: border-box;
+    }
+
+    @media(min-width: 768px) {
+
+      .l-body,
+      .l-body-outset,
+      .l-page,
+      .l-page-outset,
+      .l-middle,
+      .l-middle-outset,
+      dt-article>div,
+      dt-article>p,
+      dt-article>h1,
+      dt-article>h2,
+      dt-article>h3,
+      dt-article>h4,
+      dt-article>figure,
+      dt-article>table,
+      dt-article>ol,
+      dt-article>ul,
+      dt-article>dt-byline,
+      dt-article>dt-math,
+      dt-article>dt-code,
+      dt-article section>div,
+      dt-article section>p,
+      dt-article section>h1,
+      dt-article section>h2,
+      dt-article section>h3,
+      dt-article section>h4,
+      dt-article section>figure,
+      dt-article section>table,
+      dt-article section>ol,
+      dt-article section>ul,
+      dt-article section>dt-byline,
+      dt-article section>dt-code {
+        margin-left: 72px;
+        margin-right: 72px;
+      }
+    }
+
+    @media(min-width: 1080px) {
+
+      .l-body,
+      dt-article>div,
+      dt-article>p,
+      dt-article>h2,
+      dt-article>h3,
+      dt-article>h4,
+      dt-article>figure,
+      dt-article>table,
+      dt-article>ol,
+      dt-article>ul,
+      dt-article>dt-byline,
+      dt-article>dt-math,
+      dt-article>dt-code,
+      dt-article section>div,
+      dt-article section>p,
+      dt-article section>h2,
+      dt-article section>h3,
+      dt-article section>h4,
+      dt-article section>figure,
+      dt-article section>table,
+      dt-article section>ol,
+      dt-article section>ul,
+      dt-article section>dt-byline,
+      dt-article section>dt-code {
+        margin-left: calc(50% - 984px / 2);
+        width: 648px;
+      }
+
+      .l-body-outset,
+      dt-article .l-body-outset {
+        margin-left: calc(50% - 984px / 2 - 96px/2);
+        width: calc(648px + 96px);
+      }
+
+      .l-middle,
+      dt-article .l-middle {
+        width: 816px;
+        margin-left: calc(50% - 984px / 2);
+        margin-right: auto;
+      }
+
+      .l-middle-outset,
+      dt-article .l-middle-outset {
+        width: calc(816px + 96px);
+        margin-left: calc(50% - 984px / 2 - 48px);
+        margin-right: auto;
+      }
+
+      dt-article>h1,
+      dt-article section>h1,
+      .l-page,
+      dt-article .l-page,
+      dt-article.centered .l-page {
+        width: 984px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .l-page-outset,
+      dt-article .l-page-outset,
+      dt-article.centered .l-page-outset {
+        width: 1080px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .l-screen,
+      dt-article .l-screen,
+      dt-article.centered .l-screen {
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+      }
+
+      .l-screen-inset,
+      dt-article .l-screen-inset,
+      dt-article.centered .l-screen-inset {
+        margin-left: 24px;
+        margin-right: 24px;
+        width: auto;
+      }
+
+      .l-gutter,
+      dt-article .l-gutter {
+        clear: both;
+        float: right;
+        margin-top: 0;
+        margin-left: 24px;
+        margin-right: calc((100vw - 984px) / 2 + 168px);
+        width: calc((984px - 648px) / 2 - 24px);
+      }
+
+      /* Side */
+      .side.l-body,
+      dt-article .side.l-body {
+        clear: both;
+        float: right;
+        margin-top: 0;
+        margin-left: 48px;
+        margin-right: calc((100vw - 984px + 648px) / 2);
+        width: calc(648px / 2 - 24px - 84px);
+      }
+
+      .side.l-body-outset,
+      dt-article .side.l-body-outset {
+        clear: both;
+        float: right;
+        margin-top: 0;
+        margin-left: 48px;
+        margin-right: calc((100vw - 984px + 648px - 48px) / 2);
+        width: calc(648px / 2 - 48px + 24px);
+      }
+
+      .side.l-middle,
+      dt-article .side.l-middle {
+        clear: both;
+        float: right;
+        width: calc(456px - 84px);
+        margin-left: 48px;
+        margin-right: calc((100vw - 984px) / 2 + 168px);
+      }
+
+      .side.l-middle-outset,
+      dt-article .side.l-middle-outset {
+        clear: both;
+        float: right;
+        width: 456px;
+        margin-left: 48px;
+        margin-right: calc((100vw - 984px) / 2 + 168px);
+      }
+
+      .side.l-page,
+      dt-article .side.l-page {
+        clear: both;
+        float: right;
+        margin-left: 48px;
+        width: calc(624px - 84px);
+        margin-right: calc((100vw - 984px) / 2);
+      }
+
+      .side.l-page-outset,
+      dt-article .side.l-page-outset {
+        clear: both;
+        float: right;
+        width: 624px;
+        margin-right: calc((100vw - 984px) / 2);
+      }
+    }
+
+    /* Centered */
+
+    @media(min-width: 1080px) {
+
+      .centered .l-body,
+      .centered.l-body,
+      dt-article.centered>div,
+      dt-article.centered>p,
+      dt-article.centered>h2,
+      dt-article.centered>h3,
+      dt-article.centered>h4,
+      dt-article.centered>figure,
+      dt-article.centered>table,
+      dt-article.centered>ol,
+      dt-article.centered>ul,
+      dt-article.centered>dt-byline,
+      dt-article.centered>dt-code,
+      dt-article.centered section>div,
+      dt-article.centered section>p,
+      dt-article.centered section>h2,
+      dt-article.centered section>h3,
+      dt-article.centered section>h4,
+      dt-article.centered section>figure,
+      dt-article.centered section>table,
+      dt-article.cebtered section>ol,
+      dt-article.centered section>ul,
+      dt-article.centered section>dt-byline,
+      dt-article.centered section>dt-code,
+      dt-article section.centered>div,
+      dt-article section.centered>p,
+      dt-article section.centered>h2,
+      dt-article section.centered>h3,
+      dt-article section.centered>h4,
+      dt-article section.centered>figure,
+      dt-article section.centered>table,
+      dt-article section.centered>ol,
+      dt-article section.centered>ul,
+      dt-article section.centered>dt-byline,
+      dt-article section.centered>dt-code {
+        margin-left: auto;
+        margin-right: auto;
+        width: 648px;
+      }
+
+      .centered .l-body-outset,
+      .centered.l-body-outset,
+      dt-article.centered .l-body-outset {
+        margin-left: auto;
+        margin-right: auto;
+        width: calc(648px + 96px);
+      }
+
+      dt-article.centered>h1,
+      dt-article.centered section>h1,
+      dt-article section.centered>h1,
+      .centered .l-middle,
+      .centered.l-middle,
+      dt-article.centered .l-middle {
+        width: 816px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .centered .l-middle-outset,
+      .centered.l-middle-outset,
+      dt-article.centered .l-middle-outset {
+        width: calc(816px + 96px);
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* page and screen are already centered */
+
+      /* Side */
+
+      .centered .side.l-body,
+      .centered dt-article .side.l-body {
+        clear: both;
+        float: right;
+        margin-top: 0;
+        margin-left: 48px;
+        margin-right: calc((100vw - 648px) / 2);
+        width: calc(4 * 60px + 3 * 24px);
+      }
+
+      .centered .side.l-body-outset,
+      .centered dt-article .side.l-body-outset {
+        clear: both;
+        float: right;
+        margin-top: 0;
+        margin-left: 48px;
+        margin-right: calc((100vw - 648px) / 2);
+        width: calc(4 * 60px + 3 * 24px);
+      }
+
+      .centered .side.l-middle,
+      .centered dt-article .side.l-middle {
+        clear: both;
+        float: right;
+        width: 396px;
+        margin-left: 48px;
+        margin-right: calc((100vw - 984px) / 2 + 168px / 2);
+      }
+
+      .centered .side.l-middle-outset,
+      .centered dt-article .side.l-middle-outset {
+        clear: both;
+        float: right;
+        width: 456px;
+        margin-left: 48px;
+        margin-right: calc((100vw - 984px) / 2 + 168px);
+      }
+
+      .centered .side.l-page,
+      .centered dt-article .side.l-page {
+        clear: both;
+        float: right;
+        width: 480px;
+        margin-right: calc((100vw - 984px) / 2);
+      }
+
+      .centered .side.l-page-outset,
+      .centered dt-article .side.l-page-outset {
+        clear: both;
+        float: right;
+        width: 480px;
+        margin-right: calc((100vw - 984px) / 2);
+      }
+
+      .centered .l-gutter,
+      .centered.l-gutter,
+      dt-article.centered .l-gutter {
+        clear: both;
+        float: right;
+        margin-top: 0;
+        margin-left: 24px;
+        margin-right: calc((100vw - 984px) / 2);
+        width: calc((984px - 648px) / 2 - 24px);
+      }
+
+    }
+
+    /* Rows and Columns */
+
+    .row {
+      display: flex;
+    }
+
+    .column {
+      flex: 1;
+      box-sizing: border-box;
+      margin-right: 24px;
+      margin-left: 24px;
+    }
+
+    .row>.column:first-of-type {
+      margin-left: 0;
+    }
+
+    .row>.column:last-of-type {
+      margin-right: 0;
+    }
+
+    dt-article {
+      display: block;
+      color: rgba(0, 0, 0, 0.8);
+      font: 17px/1.55em -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+      padding-bottom: 72px;
+      background: white;
+    }
+
+    @media(min-width: 1024px) {
+      dt-article {
+        font-size: 20px;
+      }
+    }
+
+    /* H1 */
+
+    dt-article h1 {
+      margin-top: 18px;
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 1em;
+      font-family: HoeflerText-Regular, Cochin, Georgia, serif;
+    }
+
+    @media(min-width: 768px) {
+      dt-article h1 {
+        font-size: 46px;
+        margin-top: 48px;
+        margin-bottom: 12px;
+      }
+    }
+
+    @media(min-width: 1080px) {
+      .centered h1 {
+        text-align: center;
+      }
+
+      dt-article h1 {
+        font-size: 50px;
+        letter-spacing: -0.02em;
+      }
+
+      dt-article>h1:first-of-type,
+      dt-article section>h1:first-of-type {
+        margin-top: 80px;
+      }
+    }
+
+
+    @media(min-width: 1200px) {
+      dt-article h1 {
+        font-size: 56px;
+      }
+
+      dt-article>h1:first-of-type {
+        margin-top: 100px;
+      }
+    }
+
+    /* H2 */
+
+    dt-article h2 {
+      font-family: HoeflerText-Regular, Cochin, Georgia, serif;
+      font-weight: 400;
+      font-size: 26px;
+      line-height: 1.25em;
+      margin-top: 36px;
+      margin-bottom: 24px;
+    }
+
+    @media(min-width: 1024px) {
+      dt-article h2 {
+        margin-top: 48px;
+        font-size: 30px;
+      }
+    }
+
+    dt-article h1+h2 {
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 1.4em;
+      margin-top: 8px;
+      font-style: normal;
+    }
+
+
+    @media(min-width: 1080px) {
+      .centered h1+h2 {
+        text-align: center;
+      }
+
+      dt-article h1+h2 {
+        margin-top: 12px;
+        font-size: 24px;
+      }
+    }
+
+    /* H3 */
+
+    dt-article h3 {
+      font-family: HoeflerText-Regular, Georgia, serif;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.4em;
+      margin-top: 36px;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    dt-article h1+h3 {
+      margin-top: 48px;
+    }
+
+    @media(min-width: 1024px) {
+      dt-article h3 {
+        font-size: 26px;
+      }
+    }
+
+    /* H4 */
+
+    dt-article h4 {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+      line-height: 1.4em;
+    }
+
+    dt-article a {
+      color: inherit;
+    }
+
+    dt-article p,
+    dt-article ul,
+    dt-article ol {
+      margin-bottom: 24px;
+      font-family: Georgia, serif;
+    }
+
+    dt-article p b,
+    dt-article ul b,
+    dt-article ol b {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    dt-article a {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+      text-decoration: none;
+    }
+
+    dt-article a:hover {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    }
+
+    dt-article .link {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    dt-article ul,
+    dt-article ol {
+      padding-left: 24px;
+    }
+
+    dt-article li {
+      margin-bottom: 24px;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    dt-article pre {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+
+    dt-article hr {
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    dt-article section {
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    /* Tables */
+
+    dt-article table {
+      border-collapse: collapse;
+    }
+
+    dt-article table th {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    dt-article table td {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    dt-article table th,
+    dt-article table td {
+      font-size: 15px;
+      padding: 2px 0;
+    }
+
+    /* Figure */
+
+    dt-article figure {
+      position: relative;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    @media(min-width: 1024px) {
+      dt-article figure {
+        margin-top: 48px;
+        margin-bottom: 48px;
+      }
+    }
+
+    dt-article figure img {
+      width: 100%;
+    }
+
+    dt-article figure svg text,
+    dt-article figure svg tspan {}
+
+    dt-article figure figcaption {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 12px;
+      line-height: 1.5em;
+    }
+
+    @media(min-width: 1024px) {
+      dt-article figure figcaption {
+        font-size: 13px;
+      }
+    }
+
+    dt-article figure.external img {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+      padding: 18px;
+      box-sizing: border-box;
+    }
+
+    dt-article figure figcaption a {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    dt-article span.equation-mimic {
+      font-family: georgia;
+      font-size: 115%;
+      font-style: italic;
+    }
+
+    dt-article figure figcaption b {
+      font-weight: 600;
+      color: rgba(0, 0, 0, 1.0);
+    }
+
+    dt-article>dt-code,
+    dt-article section>dt-code {
+      display: block;
+    }
+
+    dt-article .citation {
+      color: #668;
+      cursor: pointer;
+    }
+
+    dt-include {
+      width: auto;
+      display: block;
+    }
+
+    /**
+   * prism.js default theme for JavaScript, CSS and HTML
+   * Based on dabblet (http://dabblet.com)
+   * @author Lea Verou
+   */
+
+    code {
+      white-space: nowrap;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 2px;
+      padding: 4px 7px;
+      font-size: 15px;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    pre code {
+      display: block;
+      background: white;
+      border-left: 3px solid rgba(0, 0, 0, 0.05);
+      padding: 0 0 0 24px;
+    }
+
+
+    code[class*="language-"],
+    pre[class*="language-"] {
+      text-shadow: 0 1px white;
+      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      line-height: 1.5;
+
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
+
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+    }
+
+    pre[class*="language-"]::-moz-selection,
+    pre[class*="language-"] ::-moz-selection,
+    code[class*="language-"]::-moz-selection,
+    code[class*="language-"] ::-moz-selection {
+      text-shadow: none;
+      background: #b3d4fc;
+    }
+
+    pre[class*="language-"]::selection,
+    pre[class*="language-"] ::selection,
+    code[class*="language-"]::selection,
+    code[class*="language-"] ::selection {
+      text-shadow: none;
+      background: #b3d4fc;
+    }
+
+    @media print {
+
+      code[class*="language-"],
+      pre[class*="language-"] {
+        text-shadow: none;
+      }
+    }
+
+    /* Code blocks */
+    pre[class*="language-"] {
+      overflow: auto;
+    }
+
+    :not(pre)>code[class*="language-"],
+    pre[class*="language-"] {}
+
+    /* Inline code */
+    :not(pre)>code[class*="language-"] {
+      white-space: normal;
+    }
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+      color: slategray;
+    }
+
+    .token.punctuation {
+      color: #999;
+    }
+
+    .namespace {
+      opacity: .7;
+    }
+
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+      color: #905;
+    }
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+      color: #690;
+    }
+
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+      color: #a67f59;
+      background: hsla(0, 0%, 100%, .5);
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+      color: #07a;
+    }
+
+    .token.function {
+      color: #DD4A68;
+    }
+
+    .token.regex,
+    .token.important,
+    .token.variable {
+      color: #e90;
+    }
+
+    .token.important,
+    .token.bold {
+      font-weight: bold;
+    }
+
+    .token.italic {
+      font-style: italic;
+    }
+
+    .token.entity {
+      cursor: help;
+    }
+
+    @media print {
+      @page {
+        size: 8in 11in;
+      }
+
+      html {}
+
+      p,
+      code {
+        page-break-inside: avoid;
+      }
+
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+
+      dt-header {
+        visibility: hidden;
+      }
+
+      dt-footer {
+        display: none !important;
+      }
+    }
+  </style>
+  <distill-header></distill-header>
+  <dt-article>
+    <div class="posts-list l-page">
+      <!-- MARK: Article list begins here -->
+      <div class="post-preview peer-reviewed">
+        <div class="metadata">
+          <div class="publishedDate">Sept. 2, 2021</div>
+          <div class="tags">
+            <a class="tag peer-reviewed" title="View this article's reviews as Github issues."
+              href="https://github.com/distillpub/post--understanding-gnns/issues?q=is%3Aissue+label%3Apeer-review"><span>Peer-reviewed</span></a>
+          </div>
+        </div>
+        <a href="example">
+          <!-- <div class="thumbnail"><img src="2021/understanding-gnns/thumbnail.jpg"></div> -->
+          <div class="description">
+            <h2 class="title">Example Article</h2>
+            <p class="authors">Me</p>
+            <p class="abstract">Understanding the building blocks and design choices of graph neural networks.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </dt-article>
 </body>

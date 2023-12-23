@@ -14,10 +14,10 @@
 
 // TODO: rewrite as template to make order dependencies easier
 
-import favicon from '../assets/distill-favicon.base64';
+import favicon from '../assets/favicon.base64';
 import escape from 'escape-html';
 
-export default function(dom, data) {
+export default function (dom, data) {
   let head = dom.querySelector('head');
   let appendHead = html => appendHtml(head, html);
 
@@ -45,7 +45,7 @@ export default function(dom, data) {
   }
 
 
-  if (data.publishedDate){
+  if (data.publishedDate) {
     appendHead(`
     <!--  https://schema.org/Article -->
     <meta property="description"       itemprop="description"   content="${escape(data.description)}" />
@@ -88,7 +88,7 @@ export default function(dom, data) {
   `);
 
   // if this is a proprer article, generate Google Scholar meta data
-  if (data.doiSuffix){
+  if (data.doiSuffix) {
     appendHead(`
       <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->\n`);
 
@@ -106,7 +106,7 @@ export default function(dom, data) {
     meta('citation_publisher', journal.publisher);
     meta('citation_fulltext_world_readable', '', true);
 
-    if (data.publishedDate){
+    if (data.publishedDate) {
       meta('citation_online_date', `${data.publishedYear}/${data.publishedMonthPadded}/${data.publishedDayPadded}`);
       meta('citation_publication_date', `${data.publishedYear}/${data.publishedMonthPadded}/${data.publishedDayPadded}`);
     }
@@ -123,7 +123,7 @@ export default function(dom, data) {
     data.citations.forEach(key => {
       if (data.bibliography && data.bibliography.has(key)) {
         const entry = data.bibliography.get(key);
-        meta('citation_reference', citation_meta_content(entry) );
+        meta('citation_reference', citation_meta_content(entry));
       } else {
         console.warn('No bibliography data found for ' + key);
       }
@@ -137,19 +137,19 @@ function appendHtml(el, html) {
   el.innerHTML += html;
 }
 
-function citation_meta_content(ref){
+function citation_meta_content(ref) {
   var content = `citation_title=${ref.title};`;
 
   if (ref.author && ref.author !== '') {
     ref.author.split(' and ').forEach(name => {
       name = name.trim();
       let last, firsts;
-      if (name.indexOf(',') != -1){
+      if (name.indexOf(',') != -1) {
         last = name.split(',')[0].trim();
         firsts = name.split(',')[1].trim();
       } else {
         last = name.split(' ').slice(-1)[0].trim();
-        firsts = name.split(' ').slice(0,-1).join(' ');
+        firsts = name.split(' ').slice(0, -1).join(' ');
       }
       content += `citation_author=${firsts} ${last};`;
     });
@@ -163,17 +163,17 @@ function citation_meta_content(ref){
   let arxiv_id_search = /https?:\/\/arxiv\.org\/pdf\/([0-9]*\.[0-9]*)\.pdf/.exec(ref.url);
   arxiv_id_search = arxiv_id_search || /https?:\/\/arxiv\.org\/abs\/([0-9]*\.[0-9]*)/.exec(ref.url);
   arxiv_id_search = arxiv_id_search || /arXiv preprint arXiv:([0-9]*\.[0-9]*)/.exec(ref.journal);
-  if (arxiv_id_search && arxiv_id_search[1]){
+  if (arxiv_id_search && arxiv_id_search[1]) {
     content += `citation_arxiv_id=${arxiv_id_search[1]};`;
     return content; // arXiv is not considered a journal, so we don't need journal/volume/issue
   }
-  if ('journal' in ref){
+  if ('journal' in ref) {
     content += `citation_journal_title=${escape(ref.journal)};`;
   }
   if ('volume' in ref) {
     content += `citation_volume=${escape(ref.volume)};`;
   }
-  if ('issue' in ref || 'number' in ref){
+  if ('issue' in ref || 'number' in ref) {
     content += `citation_number=${escape(ref.issue || ref.number)};`;
   }
   return content;
